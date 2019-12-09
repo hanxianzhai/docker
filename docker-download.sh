@@ -3,38 +3,38 @@
 set -ex
 
 export FILE_HOST="${FILE_HOST:-downloads.openwrt.org}"
-export GNUPGHOME="/keys/gpg/"
-export USIGNHOME="/keys/usign/"
+#export GNUPGHOME="/keys/gpg/"
+#export USIGNHOME="/keys/usign/"
 
 curl "https://$FILE_HOST/$DOWNLOAD_PATH/sha256sums" -fs -o sha256sums
 curl "https://$FILE_HOST/$DOWNLOAD_PATH/sha256sums.asc" -fs -o sha256sums.asc || true
 curl "https://$FILE_HOST/$DOWNLOAD_PATH/sha256sums.sig" -fs -o sha256sums.sig || true
-if [ ! -f sha256sums.asc ] && [ ! -f sha256sums.sig ]; then
-    echo "Missing sha256sums signature files"
-    exit 1
-fi
-[ ! -f sha256sums.asc ] || gpg --with-fingerprint --verify sha256sums.asc sha256sums
+#if [ ! -f sha256sums.asc ] && [ ! -f sha256sums.sig ]; then
+#    echo "Missing sha256sums signature files"
+#    exit 1
+#fi
+#[ ! -f sha256sums.asc ] || gpg --with-fingerprint --verify sha256sums.asc sha256sums
 
-if [ -f sha256sums.sig ]; then
-	if hash signify-openbsd 2>/dev/null; then
-		SIGNIFY_BIN=signify-openbsd # debian
-	else
-		SIGNIFY_BIN=signify # alpine
-	fi
-    VERIFIED=
-    for KEY in "$USIGNHOME"* ; do
-        echo "Trying $KEY..."
-        if "$SIGNIFY_BIN" -V -q -p "$KEY" -x sha256sums.sig -m sha256sums; then
-            echo "...verified"
-            VERIFIED=1
-            break
-        fi
-    done
-    if [ -z "$VERIFIED" ]; then
-        echo "Could not verify usign signature"
-        exit 1
-    fi
-fi
+#if [ -f sha256sums.sig ]; then
+#	if hash signify-openbsd 2>/dev/null; then
+#		SIGNIFY_BIN=signify-openbsd # debian
+#	else
+#		SIGNIFY_BIN=signify # alpine
+#	fi
+#    VERIFIED=
+#    for KEY in "$USIGNHOME"* ; do
+#        echo "Trying $KEY..."
+#        if "$SIGNIFY_BIN" -V -q -p "$KEY" -x sha256sums.sig -m sha256sums; then
+#            echo "...verified"
+#            VERIFIED=1
+#            break
+#        fi
+#    done
+#    if [ -z "$VERIFIED" ]; then
+#        echo "Could not verify usign signature"
+#        exit 1
+#    fi
+#fi
 
 # download file via rsync
 rsync -av "$FILE_HOST::downloads/$DOWNLOAD_PATH/$DOWNLOAD_FILE" . || exit 1
