@@ -3,7 +3,7 @@
 set -ex
 
 export TARGET="${TARGET:-x86-64}"
-export BRANCH="${BRANCH:-master}"
+export BRANCH="${BRANCH:-18.06.5}"
 export DOCKER_IMAGE="${DOCKER_IMAGE:-openwrt-sdk}"
 export DOWNLOAD_FILE="openwrt-sdk-*.Linux-x86_64.tar.xz"
 
