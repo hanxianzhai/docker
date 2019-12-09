@@ -4,13 +4,13 @@ MAINTAINER Paul Spooren <mail@aparcar.org>
 
 
 RUN set -ex \
-&& cat > /etc/apt/sources.list < -EOF
+&& cat > /etc/apt/sources.list < -EOF \
 # deb http://snapshot.debian.org/archive/debian/20191118T000000Z buster main
 deb http://deb.debian.org/debian buster main
 # deb http://snapshot.debian.org/archive/debian-security/20191118T000000Z buster/updates main
 deb http://mirrors.163.com/debian-security buster/updates main
 # deb http://snapshot.debian.org/archive/debian/20191118T000000Z buster-updates main
-deb http://deb.debian.org/debian buster-updates main
+deb http://deb.debian.org/debian buster-updates main \
 EOF 
 
 RUN apt-get update -qq &&\
